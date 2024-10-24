@@ -10,42 +10,54 @@ import (
 	"rsc.io/qr"
 )
 
+var quality map[string]qr.Level = map[string]qr.Level{"L": qr.L, "M": qr.M, "Q": qr.Q, "H": qr.H}
+
 func main() {
+	bdot := flag.String("b", "⬛️", "string to use for black dots")
+	wdot := flag.String("w", "⬜️", "string to use for white dots")
+	eccl := flag.String("l", "L", "error correction level: L,M,Q,H")
 	flag.Parse()
 	args := flag.Args()
 	if len(args) < 1 {
 		fmt.Println("argument missing")
 		os.Exit(1)
 	}
-	q, err := qr.Encode(args[0], qr.L)
-	if err != nil {
-		fmt.Println("QR generation failed: ", err)
+	var level qr.Level
+	level, ok := quality[*eccl]
+	if !ok {
+		fmt.Println("illegal ECC level: ", *eccl)
 		os.Exit(2)
 	}
-	dotsAtEncode(os.Stdout, q)
+
+	q, err := qr.Encode(args[0], level)
+	if err != nil {
+		fmt.Println("QR generation failed: ", err)
+		os.Exit(3)
+	}
+	bintextEncode(os.Stdout, q, *bdot, *wdot)
 }
 
 // borders are required
-func dotsAtEncode(w io.Writer, q *qr.Code) (err error) {
-	border := strings.Repeat("⬜️", q.Size+2)
+func bintextEncode(w io.Writer, q *qr.Code, black, white string) (err error) {
+	border := strings.Repeat(white, q.Size+2)
 	fmt.Println(border)
 	defer fmt.Println(border)
 	for y := 0; y < q.Size; y++ {
-		_, err = w.Write([]byte("⬜️"))
+		_, err = w.Write([]byte(white))
 		if err != nil {
 			return
 		}
 		for x := 0; x < q.Size; x++ {
-			cm := "⬜️"
+			cm := white
 			if q.Black(x, y) {
-				cm = "⬛️"
+				cm = black
 			}
 			_, err = w.Write([]byte(cm))
 			if err != nil {
 				return
 			}
 		}
-		_, err = w.Write([]byte("⬜️\n"))
+		_, err = w.Write([]byte(white + "\n"))
 		if err != nil {
 			return
 		}
