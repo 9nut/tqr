@@ -2,7 +2,7 @@
 Generates QR code using fancy Unicode chars.
 
 ## Usage
-`tqr -l [LMQH] -b <black dot character> -w <white dot character>`
+`tqr -l [LMQH] -b <black dot character> -w <white dot character> <string to encode>`
 
 It takes one argument and encodes it using the most
 excellent `rsc.io/qr` package, then outputs it to the terminal using
