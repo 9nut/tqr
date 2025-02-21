@@ -17,19 +17,29 @@ func main() {
 	wdot := flag.String("w", "⬜️", "string to use for white dots")
 	eccl := flag.String("l", "L", "error correction level: L,M,Q,H")
 	flag.Parse()
+
 	args := flag.Args()
-	if len(args) < 1 {
-		fmt.Println("argument missing")
-		os.Exit(1)
-	}
-	var level qr.Level
+
 	level, ok := quality[*eccl]
 	if !ok {
 		fmt.Println("illegal ECC level: ", *eccl)
 		os.Exit(2)
 	}
 
-	q, err := qr.Encode(args[0], level)
+	var data string
+
+	if len(args) < 1 {
+		b, err := io.ReadAll(os.Stdin)
+		if err != nil {
+			fmt.Println("error reading stdin: ", err)
+			os.Exit(3)
+		}
+		data = string(b)
+	} else {
+		data = args[0]
+	}
+
+	q, err := qr.Encode(data, level)
 	if err != nil {
 		fmt.Println("QR generation failed: ", err)
 		os.Exit(3)

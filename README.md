@@ -2,9 +2,9 @@
 Generates QR code using fancy Unicode chars.
 
 ## Usage
-`tqr -l [LMQH] -b <black dot character> -w <white dot character> <string to encode>`
+`tqr -l [LMQH] -b <black dot character> -w <white dot character> [<string to encode>]`
 
-It takes one argument and encodes it using the most
+Encodes a single string argument or the contents of stdin, using the most
 excellent `rsc.io/qr` package, then outputs it to the terminal using
 Unicode characters for black and white dots. All
 flags are optional. The `-l` controls the error correction redundancy
@@ -16,6 +16,8 @@ Party on ...
 Encode URLs:
 
 ```shell
+$ echo -n 'https://www.9netics.com' | tqr
+# OR
 $ tqr 'https://www.9netics.com'
 ⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️
 ⬜️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬜️⬜️⬛️⬜️⬜️⬛️⬜️⬛️⬛️⬜️⬜️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬜️
