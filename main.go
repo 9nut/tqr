@@ -16,6 +16,7 @@ func main() {
 	bdot := flag.String("b", "⬛️", "string to use for black dots")
 	wdot := flag.String("w", "⬜️", "string to use for white dots")
 	eccl := flag.String("l", "L", "error correction level: L,M,Q,H")
+	opng := flag.Bool("g", false, "output in PNG format")
 	flag.Parse()
 
 	args := flag.Args()
@@ -44,7 +45,11 @@ func main() {
 		fmt.Println("QR generation failed: ", err)
 		os.Exit(3)
 	}
-	bintextEncode(os.Stdout, q, *bdot, *wdot)
+	if *opng {
+		os.Stdout.Write(q.PNG())
+	} else {
+		bintextEncode(os.Stdout, q, *bdot, *wdot)
+	}
 }
 
 // borders are required

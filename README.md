@@ -1,16 +1,16 @@
 # tqr: QR code in term
-Generates QR code using fancy Unicode chars.
+Generates QR code using Unicode characters or PNG output.
 
 ## Usage
-`tqr -l [LMQH] -b <black dot character> -w <white dot character> [<string to encode>]`
+`tqr [-g] [-l [LMQH]] [-b <black dot character>] [-w <white dot character>] [<string to encode>]`
 
 Encodes a single string argument or the contents of stdin, using the most
-excellent `rsc.io/qr` package, then outputs it to the terminal using
-Unicode characters for black and white dots. All
+excellent `rsc.io/qr` package, then outputs it either for a terminal using
+Unicode characters for black and white dots or in PNG format. All
 flags are optional. The `-l` controls the error correction redundancy
 level. The `-c` and the `-w` flags control the Unicode string to use for
-black and white dots respectively. For help run `tqr` without arguments.
-Party on ...
+black and white dots respectively. If the `-g` flag is used, the output
+will be in PNG format. Use `tqr --help` for usage.
 
 ## Examples
 Encode URLs:
@@ -116,4 +116,8 @@ $ tqr 'MECARD:N:Doe,John;TEL:13035551212;EMAIL:john.doe@example.com;;'
 ⬜️⬛️⬜️⬜️⬜️⬜️⬜️⬛️⬜️⬛️⬜️⬜️⬛️⬜️⬜️⬜️⬛️⬜️⬛️⬜️⬛️⬛️⬛️⬛️⬛️⬜️⬜️⬜️⬜️⬛️⬜️⬜️⬛️⬜️⬜️
 ⬜️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬜️⬛️⬛️⬜️⬜️⬛️⬜️⬜️⬜️⬛️⬛️⬜️⬛️⬛️⬜️⬜️⬛️⬛️⬛️⬛️⬛️⬜️⬜️⬜️⬛️⬛️⬜️
 ⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️
+```
+To output the QR as a PNG and view it on macOS:
+```shell
+$ tqr -g https://github.com/9nut/tqr | open -f -a Preview
 ```
